@@ -30,3 +30,8 @@ src/Benchmark/DalSerializer.dll
 .idea/
 profile.arm.json
 .DS_Store
+# Offline NuGet feed (populate via scripts/prepare-offline-packages.sh; do not commit binaries)
+offline-packages/*
+!offline-packages/README.md
+!offline-packages/PACKAGE-LIST.txt
+offline-packages.tar.gz
