@@ -59,3 +59,16 @@ ls offline-packages/microsoft.netcore.app.host.linux-x64.*.nupkg
 ls offline-packages/microsoft.netcore.app.ref.8.0.28.nupkg
 ls offline-packages/netstandard.library.ref.2.1.0.nupkg
 ```
+
+## Shallow git clones
+
+`Nerdbank.GitVersioning` needs full history. If the clone is shallow (or `.git` is missing),
+`src/Directory.Build.props` automatically disables it and uses version **3.3.0**.
+
+You can also force that:
+
+```bash
+dotnet build Build.csproj -c Release /p:DisableNerdbankGitVersioning=true
+```
+
+Prefer a full clone when you care about exact git-derived package versions.

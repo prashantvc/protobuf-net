@@ -32,6 +32,30 @@
         <PackageReadmeFile>readme.md</PackageReadmeFile>
         <CheckEolTargetFramework>False</CheckEolTargetFramework>
     </PropertyGroup>
+
+    <!--
+      Nerdbank.GitVersioning needs full git history to compute version height.
+      Shallow clones (common in CI/air-gapped copies) fail with GitException.
+      Detect that and fall back to the base version from src/version.json (3.3 / assembly 3.0).
+      Override any time with: /p:DisableNerdbankGitVersioning=true  or  /p:Version=x.y.z
+    -->
+    <PropertyGroup>
+        <_GitDir>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\.git'))</_GitDir>
+        <_IsShallowClone Condition="Exists('$(_GitDir)\shallow') Or Exists('$(_GitDir)/shallow')">true</_IsShallowClone>
+        <DisableNerdbankGitVersioning Condition="'$(DisableNerdbankGitVersioning)' == '' And '$(_IsShallowClone)' == 'true'">true</DisableNerdbankGitVersioning>
+        <!-- No .git at all (source archive / partial copy) -->
+        <DisableNerdbankGitVersioning Condition="'$(DisableNerdbankGitVersioning)' == '' And !Exists('$(_GitDir)')">true</DisableNerdbankGitVersioning>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(DisableNerdbankGitVersioning)' == 'true'">
+        <NBGV_GitEngine>Disabled</NBGV_GitEngine>
+        <Version Condition="'$(Version)' == ''">3.3.0</Version>
+        <VersionPrefix Condition="'$(VersionPrefix)' == ''">3.3.0</VersionPrefix>
+        <PackageVersion Condition="'$(PackageVersion)' == ''">3.3.0</PackageVersion>
+        <AssemblyVersion Condition="'$(AssemblyVersion)' == ''">3.0.0.0</AssemblyVersion>
+        <FileVersion Condition="'$(FileVersion)' == ''">3.3.0.0</FileVersion>
+        <InformationalVersion Condition="'$(InformationalVersion)' == ''">3.3.0+nogit</InformationalVersion>
+    </PropertyGroup>
+
     <PropertyGroup Condition="'$(Configuration)'=='Release' or '$(Configuration)'=='VS'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Optimize>true</Optimize>
@@ -40,7 +64,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" PrivateAssets="all" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All"/>
-        <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="All" />
+        <PackageReference Include="Nerdbank.GitVersioning" PrivateAssets="All" Condition="'$(DisableNerdbankGitVersioning)' != 'true'" />
         <!-- oh gawd, I'm just not emotionally prepared for this...
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4">
       <PrivateAssets>all</PrivateAssets>
