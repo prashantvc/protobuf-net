@@ -35,3 +35,4 @@ offline-packages/*
 !offline-packages/README.md
 !offline-packages/PACKAGE-LIST.txt
 offline-packages.tar.gz
+offline-packages-ubuntu.tar.gz
