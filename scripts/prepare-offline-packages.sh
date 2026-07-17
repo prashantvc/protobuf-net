@@ -71,7 +71,7 @@ download_nupkg "Microsoft.Build.Traversal" "2.0.19"
 download_nupkg "Microsoft.Build.Traversal" "4.1.0"
 download_nupkg "NETStandard.Library.Ref" "2.1.0"
 
-for ver in 8.0.24 8.0.25 8.0.26 8.0.27 8.0.28 10.0.5 10.0.6 10.0.7 10.0.8 10.0.9; do
+for ver in 8.0.24 8.0.25 8.0.26 8.0.27 8.0.28 8.0.29 10.0.5 10.0.6 10.0.7 10.0.8 10.0.9 10.0.10; do
   download_nupkg "Microsoft.NETCore.App.Ref" "$ver"
   download_nupkg "Microsoft.AspNetCore.App.Ref" "$ver"
   download_nupkg "Microsoft.NETCore.App.Host.linux-x64" "$ver"

@@ -58,10 +58,10 @@ download_nupkg "Microsoft.Build.Traversal" "4.1.0"
 download_nupkg "NETStandard.Library.Ref" "2.1.0"
 
 # net8 is the primary TFM across this repo; Ubuntu SDK 10 resolves a specific patch
-# (errors seen: wanted 8.0.28 when feed only had 8.0.27). Keep a short recent band.
-NET8_PATCHES=(8.0.24 8.0.25 8.0.26 8.0.27 8.0.28)
+# (errors seen: wanted 8.0.29 when feed only had up to 8.0.28). Keep a short recent band.
+NET8_PATCHES=(8.0.24 8.0.25 8.0.26 8.0.27 8.0.28 8.0.29)
 # net10 packs for SDK 10.0.x / projects that may pull framework refs at 10.x
-NET10_PATCHES=(10.0.5 10.0.6 10.0.7 10.0.8 10.0.9)
+NET10_PATCHES=(10.0.5 10.0.6 10.0.7 10.0.8 10.0.9 10.0.10)
 
 for ver in "${NET8_PATCHES[@]}" "${NET10_PATCHES[@]}"; do
   download_nupkg "Microsoft.NETCore.App.Ref" "$ver"
